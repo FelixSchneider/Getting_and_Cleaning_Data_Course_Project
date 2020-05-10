@@ -23,7 +23,9 @@ features <- features[,2]
 pattern <- "mean[(][)]|std[(][)]"
 features_cols <- grepl(pattern,features)
 features_names <- grep(pattern,features,value=TRUE)
-features_names <- gsub("[()]","",features_names)
+features_names <- gsub("[()-]","",features_names)
+features_names <- gsub("mean","Mean",features_names)
+features_names <- gsub("std","Std",features_names)
 
 # 2. extract only the measurements of the mean and standard deviation for each measurement
 X <- X[,features_cols]
@@ -36,11 +38,11 @@ y <- merge(y,activities,sort=FALSE)
 names(X) <- features_names
 
 # finally create one dataset
-har <- cbind(subject,X,y)
+har <- cbind(subject,activity_label=y$activity_label,X)
 
 # 5. create second, independent tidy data set with the average of each variable
 #    for each activity and each subject
 library(dplyr)
 har %>%
   group_by(activity_label,subject) %>%
-  summarise(mean())
+  summarise(colMeans)
