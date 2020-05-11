@@ -1,6 +1,3 @@
-##
-## Download the data and read it into R
-##
 library(dplyr)
 
 fileURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
@@ -49,3 +46,5 @@ har %>%
   group_by(activity_label,subject) %>%
   summarise_all(mean) ->
   har_mean_by_act_subj
+
+write.table(har_mean_by_act_subj,"result_of_step5.txt",row.names=FALSE)
