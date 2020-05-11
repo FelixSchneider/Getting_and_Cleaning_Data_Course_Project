@@ -1,6 +1,8 @@
 ##
 ## Download the data and read it into R
 ##
+library(dplyr)
+
 fileURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
 download.file(fileURL,"getdata_projectfiles_UCI_HAR_Dataset.zip")
 unzip("getdata_projectfiles_UCI_HAR_Dataset.zip")
@@ -38,11 +40,12 @@ y <- merge(y,activities,sort=FALSE)
 names(X) <- features_names
 
 # finally create one dataset
-har <- cbind(subject,activity_label=y$activity_label,X)
+har <- cbind(subject,y,X)
+har <- select(har,-activity_code)
 
 # 5. create second, independent tidy data set with the average of each variable
 #    for each activity and each subject
-library(dplyr)
 har %>%
   group_by(activity_label,subject) %>%
-  summarise(colMeans)
+  summarise_all(mean) ->
+  har_mean_by_act_subj
