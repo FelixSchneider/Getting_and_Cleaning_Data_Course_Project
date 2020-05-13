@@ -28,16 +28,15 @@ features_names <- gsub("std","Std",features_names)
 
 # 2. extract only the measurements of the mean and standard deviation for each measurement
 X <- X[,features_cols]
-
-# 3. use descriptive activity names to name the activities in the data set
-activities <- read.table("activity_labels.txt",col.names=c("activity_code","activity_label"))
-y <- merge(y,activities,sort=FALSE)
-
 # 4. appropriately label the data set with descriptive variable names
 names(X) <- features_names
 
 # finally create one dataset
 har <- cbind(subject,y,X)
+
+# 3. use descriptive activity names to name the activities in the data set
+activities <- read.table("activity_labels.txt",col.names=c("activity_code","activity_label"))
+har <- merge(activities,har,sort=FALSE)
 har <- select(har,-activity_code)
 
 # 5. create second, independent tidy data set with the average of each variable
