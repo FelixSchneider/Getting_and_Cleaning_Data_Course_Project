@@ -47,4 +47,4 @@ har %>%
   summarise_all(mean) ->
   har_mean_by_act_subj
 
-write.table(har_mean_by_act_subj,"result_of_step5.txt",row.names=FALSE,col.names=TRUE)
+write.table(har_mean_by_act_subj,"../result_of_step5.txt",row.names=FALSE,col.names=TRUE)
