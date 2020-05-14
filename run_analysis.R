@@ -33,6 +33,7 @@ har3 <- select(har3,-activity_code)
 features_names <- gsub("[()\\-]","",features_selected$name)
 features_names <- gsub("mean","Mean",features_names)
 features_names <- gsub("std","Std",features_names)
+features_names <- gsub("BodyBody","Body",features_names)
 names(har3) <- c(features_names,"subject","activity_label")
 
 # 5. create second, independent tidy data set with the average of each variable
