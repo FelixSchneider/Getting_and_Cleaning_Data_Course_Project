@@ -16,32 +16,28 @@ subject_test  <- read.table("test/subject_test.txt",  col.names="subject")
 X <- rbind(X_train,X_test)
 y <- rbind(y_train,y_test)
 subject <- rbind(subject_train,subject_test)
-
-features <- read.table("features.txt",stringsAsFactors=FALSE)
-features <- features[,2]
-pattern <- "mean[(][)]|std[(][)]"
-features_cols <- grepl(pattern,features)
-features_names <- grep(pattern,features,value=TRUE)
-features_names <- gsub("[()-]","",features_names)
-features_names <- gsub("mean","Mean",features_names)
-features_names <- gsub("std","Std",features_names)
+har <- cbind(X,y,subject)
 
 # 2. extract only the measurements of the mean and standard deviation for each measurement
-X <- X[,features_cols]
-# 4. appropriately label the data set with descriptive variable names
-names(X) <- features_names
-
-# finally create one dataset
-har <- cbind(subject,y,X)
+features <- read.table("features.txt",col.names=c("id","name"),stringsAsFactors=FALSE)
+pattern <- "mean\\(\\)|std\\(\\)"
+features_selected <- filter(features,grepl(pattern,name))
+har2 <- select(har,features_selected$id,activity_code,subject)
 
 # 3. use descriptive activity names to name the activities in the data set
 activities <- read.table("activity_labels.txt",col.names=c("activity_code","activity_label"))
-har <- merge(activities,har,sort=FALSE)
-har <- select(har,-activity_code)
+har3 <- merge(har2,activities,sort=FALSE)
+har3 <- select(har3,-activity_code)
+
+# 4. appropriately label the data set with descriptive variable names
+features_names <- gsub("[()\\-]","",features_selected$name)
+features_names <- gsub("mean","Mean",features_names)
+features_names <- gsub("std","Std",features_names)
+names(har3) <- c(features_names,"subject","activity_label")
 
 # 5. create second, independent tidy data set with the average of each variable
 #    for each activity and each subject
-har %>%
+har3 %>%
   group_by(activity_label,subject) %>%
   summarise_all(mean) ->
   har_mean_by_act_subj
