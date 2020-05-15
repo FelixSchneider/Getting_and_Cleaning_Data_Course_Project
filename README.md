@@ -1,6 +1,6 @@
 # Human Activity Recognition using Smartphones
 ## Getting and Cleaning Data: Course Project
-This project builds on top of another project which I call the *base project*, that dealt with measurement data from accelerometers and gyroscopes of smartphones attached to test persons performing six different activities. The documentation of the base project is included in the downloaded files and remains valid in describing the data of the base project. In turn, this Coursera Course Project builds on top of the base project in that it uses the data and manipulate and transforms it.
+This project builds on top of another project which I call the *base project*, that dealt with measurement data from accelerometers and gyroscopes of smartphones attached to 30 test persons performing six different activities. The documentation of the base project is included in the downloaded files and remains valid in describing the data of the base project. In turn, this Coursera Course Project builds on top of the base project in that it uses the data and manipulates and transforms it.
 
 ### This repo consists of the following files:
 File           | Contents
@@ -49,6 +49,9 @@ The activities are represented by a numeric code in the data set. The mapping be
 I consider the variable names in the `features_selected` object already as sufficiently descriptive, given there is a section of the documentation which provides a mapping between the abbreviations and the full terms. This documentation is provided in the Codebook of this project.
 
 Basis of the labeling is the object `features_selected`. From its `name` column, parenthesis `()` and hyphens `-` are removed to avoid problems with using these names as column headers of a data frame. Furthermore, the first letter of the strings `mean` and `std` are capitalized to improve readablity.
+
+Aditionally, variable names containing the string "BodyBody" are corrected to just contain the string "Body", since this is an error in the underlying data set (according to a forum post by Leonard Greski
+https://www.coursera.org/learn/data-cleaning/peer/FIZtT/getting-and-cleaning-data-course-project/discussions/threads/yD2gtalxEeelRgqEwi0dZA/replies/tKU-ZKr_EeeANQrOhBtvUA)
 
 The actual labeling is achieved by a call to `names()` and assigning it the character vector of `features_names` amended by the `subject` and `activity_label` columns.
 
