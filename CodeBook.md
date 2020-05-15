@@ -113,3 +113,4 @@ fBodyGyroJerkMagStd
 ```
 
 ## Transformations and work performed to clean up the data
+No transformations (applying functions or creating derived values) were done on the data. They were taken as is and further processed by the script `run_analysis.R` as described in the README.md file.
